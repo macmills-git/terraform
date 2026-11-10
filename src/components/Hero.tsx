@@ -65,8 +65,8 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
             </div>
           </div>
 
-          {/* Main Display Headline (Easy Grotesk Standard 400) */}
-          <h1 className="font-heading font-normal text-3xl sm:text-4xl md:text-[50px] lg:text-[52px] leading-[1.2] tracking-[-0.03em] text-obsidian-pure mb-3.5">
+          {/* Main Display Headline (Easy Grotesk Standard 400) - Enhanced line spacing */}
+          <h1 className="font-heading font-normal text-3xl sm:text-4xl md:text-[50px] lg:text-[52px] leading-[1.32] sm:leading-[1.36] lg:leading-[1.4] tracking-[-0.02em] text-obsidian-pure mb-4">
             Waste Collection On Time. <br className="hidden sm:inline" />
             At Your Convenience.
           </h1>
