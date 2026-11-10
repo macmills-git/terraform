@@ -1009,48 +1009,6 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({ onNavigate }) => {
 
       </section>
 
-
-      {/* 7. BOTTOM CONVERSION ACTION BANNER */}
-      <section className="py-14 sm:py-18 bg-obsidian-pure text-white relative overflow-hidden">
-        {/* Subtle decorative background glow */}
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#80B86B]/10 rounded-full blur-3xl pointer-events-none" />
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="max-w-3xl space-y-4">
-            <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-white/10 text-xs font-medium text-[#80B86B]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#80B86B]"></span>
-              <span>Ready For Punctual, Zero-Stress Waste Management?</span>
-            </div>
-
-            <h2 className="font-heading font-normal text-3xl sm:text-5xl text-white tracking-tight leading-tight">
-              Get Waste Picked Up On Time. <br />
-              <span className="text-neutral-400">At Your Convenience.</span>
-            </h2>
-
-            <p className="font-body text-sm sm:text-base text-neutral-300 max-w-xl leading-relaxed">
-              Contact our dispatch team today to configure a collection schedule tailored to your business, estate, or industrial site.
-            </p>
-
-            <div className="pt-4 flex flex-wrap items-center gap-4">
-              <button
-                onClick={() => onNavigate('request')}
-                className="px-6 py-3 rounded-full bg-white text-obsidian-pure text-xs sm:text-sm font-semibold hover:bg-neutral-100 transition-all flex items-center space-x-2 shadow-lg"
-              >
-                <span>Book a Pickup Now</span>
-                <ArrowRight size={14} />
-              </button>
-
-              <button
-                onClick={() => scrollToSection('simulator', 'recycling')}
-                className="px-6 py-3 rounded-full bg-white/10 text-white border border-white/20 text-xs sm:text-sm font-medium hover:bg-white/15 transition-all"
-              >
-                <span>Calculate Your Circular Yield</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
     </div>
   );
 };
