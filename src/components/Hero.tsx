@@ -13,12 +13,13 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
   return (
     <>
       {/* 
-        Hero Section: Centered directly in the middle of the screen
-        With the landscape photograph blending gracefully in the lower half
+        Hero Section:
+        - Desktop (>= lg): Original full desktop layout with text at top and vivid Gemini landscape taking ~62vh below.
+        - Mobile (< lg): Text centered directly in the middle of the screen with landscape backdrop in lower portion.
       */}
       <section 
         id="hero" 
-        className="hero-section bg-white relative overflow-hidden flex items-center justify-center min-h-[calc(100vh-3.5rem)] sm:min-h-[calc(100vh-4rem)] min-h-[calc(100svh-3.5rem)] sm:min-h-[calc(100svh-4rem)]"
+        className="hero-section bg-white relative overflow-hidden flex flex-col justify-center lg:justify-between min-h-[calc(100vh-3.5rem)] sm:min-h-[calc(100vh-4rem)] min-h-[calc(100svh-3.5rem)] sm:min-h-[calc(100svh-4rem)] lg:min-h-[calc(100vh+10px)] lg:min-h-[calc(100svh+10px)]"
       >
         {/* Subtle 4-point sparkle crosshair markers in brand green #80B86B */}
         <div className="absolute top-12 sm:top-16 left-[12%] hidden lg:block pointer-events-none z-20">
@@ -43,9 +44,11 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
         </div>
 
         {/* 
-          Hero Content: Perfectly centered in the middle of the screen
+          Hero Content:
+          - On mobile: sits directly in the middle of the viewport (my-auto)
+          - On desktop: positioned with generous breathing room above the landscape image
         */}
-        <div className="relative z-20 max-w-3xl mx-auto px-4 sm:px-6 text-center py-12 sm:py-16 flex flex-col items-center justify-center my-auto">
+        <div className="relative z-20 max-w-3xl mx-auto px-4 sm:px-6 text-center py-10 sm:py-14 lg:pt-12 lg:pb-2 lg:my-0 my-auto flex flex-col items-center justify-center lg:flex-1">
           
           {/* Status Badge with delicate sprout doodle */}
           <div className="relative inline-flex items-center">
@@ -63,7 +66,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
           </div>
 
           {/* Main Display Headline (Easy Grotesk Standard 400) */}
-          <h1 className="font-heading font-normal text-3xl sm:text-4xl md:text-[52px] leading-[1.2] tracking-[-0.03em] text-obsidian-pure mb-3.5">
+          <h1 className="font-heading font-normal text-3xl sm:text-4xl md:text-[50px] lg:text-[52px] leading-[1.2] tracking-[-0.03em] text-obsidian-pure mb-3.5">
             Waste Collection On Time. <br className="hidden sm:inline" />
             At Your Convenience.
           </h1>
@@ -93,23 +96,33 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
         </div>
 
         {/* 
-          Atmospheric Landscape Backdrop positioned in the lower portion of the hero
-          With smooth gradients so text remains perfectly legible and centered
+          1. MOBILE LANDSCAPE BACKDROP (< lg):
+          Positioned as an atmospheric backdrop so text sits centered in the viewport
         */}
-        <div className="absolute inset-x-0 bottom-0 h-[48%] sm:h-[52%] md:h-[55%] pointer-events-none z-1 overflow-hidden">
-          {/* Top smooth white fade */}
-          <div className="absolute inset-x-0 top-0 h-32 sm:h-44 bg-gradient-to-b from-white via-white/85 to-transparent z-10"></div>
-
-          {/* Gemini Generated Landscape Image */}
+        <div className="lg:hidden absolute inset-x-0 bottom-0 h-[48%] sm:h-[52%] pointer-events-none z-1 overflow-hidden">
+          <div className="absolute inset-x-0 top-0 h-28 sm:h-36 bg-gradient-to-b from-white via-white/85 to-transparent z-10"></div>
           <img
             src={geminiHeroBg}
             alt="Golden sunrise landscape representing circular technology and agricultural restoration"
             className="w-full h-full object-cover object-[center_36%] opacity-90 block"
             loading="eager"
           />
+          <div className="absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-white via-white/40 to-transparent z-10"></div>
+        </div>
 
-          {/* Bottom subtle gradient fade */}
-          <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white via-white/40 to-transparent z-10"></div>
+        {/* 
+          2. DESKTOP FULL-WIDTH IMAGE WRAPPER (>= lg):
+          Original full desktop presentation occupying ~62vh below the centered headline
+        */}
+        <div className="hero-background-image-container hidden lg:flex relative w-full h-[58vh] lg:h-[62vh] min-h-[460px] lg:min-h-[500px] -mt-10 lg:-mt-14 overflow-hidden z-1 flex-col justify-end">
+          <div className="hero-fade-top pointer-events-none"></div>
+          <img
+            src={geminiHeroBg}
+            alt="Golden sunrise landscape representing circular technology and agricultural restoration"
+            className="hero-background-image w-full h-full object-cover object-[center_32%] block"
+            loading="eager"
+          />
+          <div className="hero-fade-bottom pointer-events-none"></div>
         </div>
       </section>
 

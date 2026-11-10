@@ -147,22 +147,16 @@ export const MissionVision: React.FC<MissionVisionProps> = ({ onNavigate }) => {
 
         </div>
 
-        {/* 
-          Horizontally Stacked & Swipeable Cards Container:
-          - On mobile & tablet: horizontal swipe rail (overflow-x-auto, snap-x snap-mandatory, no vertical clutter)
-          - On desktop: elegant 4-column layout
-        */}
-        <div 
-          ref={scrollContainerRef}
-          onScroll={handleScroll}
-          className="flex lg:grid lg:grid-cols-4 gap-3.5 sm:gap-4 lg:gap-5 overflow-x-auto lg:overflow-x-visible snap-x snap-mandatory no-scrollbar pb-3 pt-1 -mx-4 px-4 sm:mx-0 sm:px-0"
-        >
+        {/* ========================================================================= */}
+        {/* 1. DESKTOP VIEW: Full 4-Column Grid (Screens >= 1024px)                   */}
+        {/* ========================================================================= */}
+        <div className="hidden lg:grid lg:grid-cols-4 gap-5 items-stretch pt-2">
           {cards.map((card) => {
             const Icon = card.icon;
             return (
               <div
                 key={card.id}
-                className="w-[82vw] sm:w-[52vw] md:w-[44vw] lg:w-full shrink-0 lg:shrink snap-center lg:snap-align-none bg-white rounded-2xl p-5 sm:p-6 text-obsidian-pure shadow-xl border border-black/5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1"
+                className="bg-white rounded-2xl p-6 text-obsidian-pure shadow-xl border border-black/5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1"
               >
                 <div>
                   {/* Top-Left: Small Tinted Rounded Icon Badge */}
@@ -171,7 +165,7 @@ export const MissionVision: React.FC<MissionVisionProps> = ({ onNavigate }) => {
                   </div>
 
                   {/* Card Title */}
-                  <h3 className="font-heading font-medium text-sm sm:text-base text-obsidian-pure tracking-tight leading-snug mb-2">
+                  <h3 className="font-heading font-medium text-base text-obsidian-pure tracking-tight leading-snug mb-2">
                     {card.title}
                   </h3>
 
@@ -191,18 +185,62 @@ export const MissionVision: React.FC<MissionVisionProps> = ({ onNavigate }) => {
           })}
         </div>
 
-        {/* Mobile Swipe Pagination Dots Indicator */}
-        <div className="flex lg:hidden items-center justify-center space-x-1.5 pt-3">
-          {cards.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => scrollToIndex(i)}
-              aria-label={`Go to card ${i + 1}`}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                activeIdx === i ? 'w-6 bg-[#80B86B]' : 'w-1.5 bg-white/30'
-              }`}
-            />
-          ))}
+        {/* ========================================================================= */}
+        {/* 2. MOBILE / RESPONSIVE VIEW: Horizontal Swipe Rail (Screens < 1024px)     */}
+        {/* ========================================================================= */}
+        <div className="block lg:hidden">
+          <div 
+            ref={scrollContainerRef}
+            onScroll={handleScroll}
+            className="flex gap-3.5 sm:gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-3 pt-1 -mx-4 px-4 sm:mx-0 sm:px-0"
+          >
+            {cards.map((card) => {
+              const Icon = card.icon;
+              return (
+                <div
+                  key={card.id}
+                  className="w-[82vw] sm:w-[52vw] md:w-[44vw] shrink-0 snap-center bg-white rounded-2xl p-5 sm:p-6 text-obsidian-pure shadow-xl border border-black/5 flex flex-col justify-between"
+                >
+                  <div>
+                    {/* Top-Left: Small Tinted Rounded Icon Badge */}
+                    <div className="w-9 h-9 rounded-xl bg-neutral-100 border border-neutral-200/50 flex items-center justify-center text-obsidian-pure mb-4 shadow-2xs">
+                      <Icon size={16} className="text-emerald-status" />
+                    </div>
+
+                    {/* Card Title */}
+                    <h3 className="font-heading font-medium text-sm sm:text-base text-obsidian-pure tracking-tight leading-snug mb-2">
+                      {card.title}
+                    </h3>
+
+                    {/* Body Copy */}
+                    <p className="font-body text-xs text-neutral-600 leading-relaxed font-normal">
+                      {card.description}
+                    </p>
+                  </div>
+
+                  {/* Bottom Hairline Status Accent */}
+                  <div className="pt-3 mt-4 border-t border-border-hairline flex items-center justify-between text-[11px] text-neutral-400">
+                    <span>Circular Pillar</span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-dot"></span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Mobile Swipe Pagination Dots Indicator */}
+          <div className="flex items-center justify-center space-x-1.5 pt-3">
+            {cards.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => scrollToIndex(i)}
+                aria-label={`Go to card ${i + 1}`}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  activeIdx === i ? 'w-6 bg-[#80B86B]' : 'w-1.5 bg-white/30'
+                }`}
+              />
+            ))}
+          </div>
         </div>
 
       </div>

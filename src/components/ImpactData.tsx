@@ -111,20 +111,14 @@ export const ImpactData: React.FC<ImpactDataProps> = () => {
           </div>
         </div>
 
-        {/* 
-          Horizontally Stacked & Swipeable Telemetry Cards
-          - On mobile/tablet: horizontal snap swipe container (minimal vertical height)
-          - On desktop: standard balanced 4-column grid
-        */}
-        <div 
-          ref={scrollContainerRef}
-          onScroll={handleScroll}
-          className="flex lg:grid lg:grid-cols-4 gap-4 sm:gap-5 overflow-x-auto lg:overflow-x-visible snap-x snap-mandatory no-scrollbar pb-3 pt-1 -mx-4 px-4 sm:mx-0 sm:px-0"
-        >
+        {/* ========================================================================= */}
+        {/* 1. DESKTOP VIEW: Full 4-Column Grid (Screens >= 1024px)                   */}
+        {/* ========================================================================= */}
+        <div className="hidden lg:grid lg:grid-cols-4 gap-5 items-stretch pt-2">
           {metrics.map((item, idx) => (
             <div
               key={idx}
-              className="w-[82vw] sm:w-[50vw] md:w-[44vw] lg:w-full shrink-0 lg:shrink snap-center lg:snap-align-none group p-5 sm:p-6 rounded-2xl bg-white border border-border-subtle hover:border-obsidian-pure hover:shadow-subtle transition-all duration-200 flex flex-col justify-between"
+              className="group p-6 rounded-2xl bg-white border border-border-subtle hover:border-obsidian-pure hover:shadow-subtle transition-all duration-200 flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-center justify-between mb-4">
@@ -160,18 +154,67 @@ export const ImpactData: React.FC<ImpactDataProps> = () => {
           ))}
         </div>
 
-        {/* Mobile Swipe Pagination Dots Indicator */}
-        <div className="flex lg:hidden items-center justify-center space-x-1.5 pt-3">
-          {metrics.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => scrollToIndex(i)}
-              aria-label={`Go to metric ${i + 1}`}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                activeIdx === i ? 'w-6 bg-[#80B86B]' : 'w-1.5 bg-neutral-300'
-              }`}
-            />
-          ))}
+        {/* ========================================================================= */}
+        {/* 2. MOBILE / RESPONSIVE VIEW: Horizontal Swipe Rail (Screens < 1024px)     */}
+        {/* ========================================================================= */}
+        <div className="block lg:hidden">
+          <div 
+            ref={scrollContainerRef}
+            onScroll={handleScroll}
+            className="flex gap-4 sm:gap-5 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-3 pt-1 -mx-4 px-4 sm:mx-0 sm:px-0"
+          >
+            {metrics.map((item, idx) => (
+              <div
+                key={idx}
+                className="w-[82vw] sm:w-[50vw] md:w-[44vw] shrink-0 snap-center group p-5 sm:p-6 rounded-2xl bg-white border border-border-subtle hover:border-obsidian-pure hover:shadow-subtle transition-all duration-200 flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-[10px] font-semibold uppercase tracking-wider text-neutral-500 bg-neutral-100 px-2.5 py-0.5 rounded-full">
+                      {item.tag}
+                    </span>
+                    <ShieldCheck size={14} className="text-emerald-status opacity-80" />
+                  </div>
+
+                  <div className="font-heading font-normal text-3xl sm:text-4xl text-obsidian-pure tracking-tight mb-1.5">
+                    {item.stat}
+                    {item.unit && (
+                      <span className="block text-[11px] font-medium tracking-normal text-neutral-500 uppercase mt-0.5">
+                        {item.unit}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="font-heading font-medium text-sm sm:text-[15px] text-obsidian-pure mb-2">
+                    {item.label}
+                  </div>
+
+                  <p className="font-body text-xs text-neutral-600 leading-relaxed">
+                    {item.description}
+                  </p>
+                </div>
+
+                <div className="pt-4 mt-4 border-t border-border-hairline flex items-center justify-between text-xs text-neutral-400 group-hover:text-obsidian-pure transition-colors">
+                  <span>Verified Telemetry</span>
+                  <ArrowUpRight size={13} />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Mobile Swipe Pagination Dots Indicator */}
+          <div className="flex items-center justify-center space-x-1.5 pt-3">
+            {metrics.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => scrollToIndex(i)}
+                aria-label={`Go to metric ${i + 1}`}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  activeIdx === i ? 'w-6 bg-[#80B86B]' : 'w-1.5 bg-neutral-300'
+                }`}
+              />
+            ))}
+          </div>
         </div>
 
       </div>
