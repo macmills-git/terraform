@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { PageType } from '../types';
 import { YieldSimulator } from '../components/YieldSimulator';
 import commercialPickupImg from '../assets/commercial-industrial-pickup.jpg';
@@ -24,6 +24,7 @@ import {
   Hotel,
   Stethoscope,
   HardHat,
+  ChevronLeft,
   ChevronRight,
   Sparkles
 } from 'lucide-react';
@@ -35,6 +36,29 @@ interface SolutionsPageProps {
 export const SolutionsPage: React.FC<SolutionsPageProps> = ({ onNavigate }) => {
   const [activeCategoryFilter, setActiveCategoryFilter] = useState<'all' | 'commercial' | 'residential' | 'recycling' | 'specialized'>('all');
   const [commercialTab, setCommercialTab] = useState<'hospitality' | 'corporate' | 'manufacturing' | 'healthcare' | 'construction'>('corporate');
+
+  // Specialized section swipe state
+  const specializedScrollRef = useRef<HTMLDivElement>(null);
+  const [activeSpecializedIdx, setActiveSpecializedIdx] = useState(0);
+
+  const handleSpecializedScroll = () => {
+    if (specializedScrollRef.current) {
+      const { scrollLeft, clientWidth } = specializedScrollRef.current;
+      const index = Math.round(scrollLeft / (clientWidth * 0.8));
+      setActiveSpecializedIdx(Math.min(3, Math.max(0, index)));
+    }
+  };
+
+  const scrollSpecializedToIndex = (index: number) => {
+    if (specializedScrollRef.current) {
+      const cardWidth = specializedScrollRef.current.clientWidth * 0.82;
+      specializedScrollRef.current.scrollTo({
+        left: index * cardWidth,
+        behavior: 'smooth'
+      });
+      setActiveSpecializedIdx(index);
+    }
+  };
 
   const scrollToSection = (id: string, filter: 'all' | 'commercial' | 'residential' | 'recycling' | 'specialized') => {
     setActiveCategoryFilter(filter);
@@ -846,9 +870,9 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({ onNavigate }) => {
 
 
       {/* 6. SPECIALIZED & HAZARDOUS SERVICES */}
-      <section id="specialized-services" className="py-16 md:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-20">
+      <section id="specialized-services" className="py-14 md:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-20">
         
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 sm:mb-10 gap-4">
           <div className="max-w-2xl">
             <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-neutral-100 text-xs font-medium text-neutral-800 mb-3">
               <ShieldCheck size={12} className="text-[#80B86B]" />
@@ -862,69 +886,125 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({ onNavigate }) => {
             </p>
           </div>
 
-          <button
-            onClick={() => onNavigate('request')}
-            className="text-xs font-semibold text-obsidian-pure hover:text-[#80B86B] transition-colors flex items-center space-x-1"
-          >
-            <span>Consult With Environmental Engineer</span>
-            <ChevronRight size={13} />
-          </button>
+          <div className="flex items-center space-x-3 self-start md:self-end">
+            {/* Mobile / Tablet Horizontal Swipe Navigation Controls */}
+            <div className="flex lg:hidden items-center space-x-1.5 bg-neutral-100 p-1 rounded-full border border-border-subtle">
+              <button
+                onClick={() => scrollSpecializedToIndex(Math.max(0, activeSpecializedIdx - 1))}
+                disabled={activeSpecializedIdx === 0}
+                aria-label="Previous specialized card"
+                className={`w-7 h-7 rounded-full flex items-center justify-center transition-all ${
+                  activeSpecializedIdx === 0 ? 'text-neutral-300 cursor-not-allowed' : 'text-neutral-700 hover:bg-white'
+                }`}
+              >
+                <ChevronLeft size={16} />
+              </button>
+              <button
+                onClick={() => scrollSpecializedToIndex(Math.min(3, activeSpecializedIdx + 1))}
+                disabled={activeSpecializedIdx === 3}
+                aria-label="Next specialized card"
+                className={`w-7 h-7 rounded-full flex items-center justify-center transition-all ${
+                  activeSpecializedIdx === 3 ? 'text-neutral-300 cursor-not-allowed' : 'text-neutral-700 hover:bg-white'
+                }`}
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
+
+            <button
+              onClick={() => onNavigate('request')}
+              className="text-xs font-semibold text-obsidian-pure hover:text-[#80B86B] transition-colors flex items-center space-x-1 shrink-0"
+            >
+              <span>Consult With Environmental Engineer</span>
+              <ChevronRight size={13} />
+            </button>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* 
+          Horizontally Stacked & Swipeable on Mobile/Tablet
+          Standard 4-column Grid on Desktop
+        */}
+        <div 
+          ref={specializedScrollRef}
+          onScroll={handleSpecializedScroll}
+          className="flex lg:grid lg:grid-cols-4 gap-4 overflow-x-auto lg:overflow-x-visible snap-x snap-mandatory no-scrollbar pb-3 pt-1 -mx-4 px-4 sm:mx-0 sm:px-0"
+        >
           
-          <div className="p-5 rounded-2xl border border-border-subtle bg-white space-y-2.5 shadow-xs">
-            <div className="w-8 h-8 rounded-lg bg-red-50 text-red-600 flex items-center justify-center">
-              <Stethoscope size={16} />
+          <div className="w-[82vw] sm:w-[50vw] md:w-[44vw] lg:w-auto shrink-0 snap-center p-5 rounded-2xl border border-border-subtle bg-white space-y-2.5 shadow-xs flex flex-col justify-between">
+            <div>
+              <div className="w-8 h-8 rounded-lg bg-red-50 text-red-600 flex items-center justify-center mb-2">
+                <Stethoscope size={16} />
+              </div>
+              <h4 className="font-heading font-medium text-base text-obsidian-pure">Regulated Bio-Medical</h4>
+              <p className="text-xs text-neutral-600 leading-relaxed">
+                Incineration, autoclaving, and EPA-manifested chain-of-custody disposal for clinics, diagnostic labs, and hospitals.
+              </p>
             </div>
-            <h4 className="font-heading font-medium text-base text-obsidian-pure">Regulated Bio-Medical</h4>
-            <p className="text-xs text-neutral-600 leading-relaxed">
-              Incineration, autoclaving, and EPA-manifested chain-of-custody disposal for clinics, diagnostic labs, and hospitals.
-            </p>
-            <div className="text-[11px] text-neutral-500 font-medium pt-1">
+            <div className="text-[11px] text-neutral-500 font-medium pt-2 border-t border-border-hairline">
               Daily certified sweeps
             </div>
           </div>
 
-          <div className="p-5 rounded-2xl border border-border-subtle bg-white space-y-2.5 shadow-xs">
-            <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
-              <FileText size={16} />
+          <div className="w-[82vw] sm:w-[50vw] md:w-[44vw] lg:w-auto shrink-0 snap-center p-5 rounded-2xl border border-border-subtle bg-white space-y-2.5 shadow-xs flex flex-col justify-between">
+            <div>
+              <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center mb-2">
+                <FileText size={16} />
+              </div>
+              <h4 className="font-heading font-medium text-base text-obsidian-pure">Confidential Shredding</h4>
+              <p className="text-xs text-neutral-600 leading-relaxed">
+                On-site or facility document cross-cut destruction with certificates of destruction for banks, law firms, and embassies.
+              </p>
             </div>
-            <h4 className="font-heading font-medium text-base text-obsidian-pure">Confidential Shredding</h4>
-            <p className="text-xs text-neutral-600 leading-relaxed">
-              On-site or facility document cross-cut destruction with certificates of destruction for banks, law firms, and embassies.
-            </p>
-            <div className="text-[11px] text-neutral-500 font-medium pt-1">
+            <div className="text-[11px] text-neutral-500 font-medium pt-2 border-t border-border-hairline">
               Tamper-evident consoles
             </div>
           </div>
 
-          <div className="p-5 rounded-2xl border border-border-subtle bg-white space-y-2.5 shadow-xs">
-            <div className="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center">
-              <Calendar size={16} />
+          <div className="w-[82vw] sm:w-[50vw] md:w-[44vw] lg:w-auto shrink-0 snap-center p-5 rounded-2xl border border-border-subtle bg-white space-y-2.5 shadow-xs flex flex-col justify-between">
+            <div>
+              <div className="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center mb-2">
+                <Calendar size={16} />
+              </div>
+              <h4 className="font-heading font-medium text-base text-obsidian-pure">Event &amp; Festival Sanitization</h4>
+              <p className="text-xs text-neutral-600 leading-relaxed">
+                Turnkey mobile waste stations, dedicated roving ground teams, and zero-litter post-event clearouts for concerts and expos.
+              </p>
             </div>
-            <h4 className="font-heading font-medium text-base text-obsidian-pure">Event &amp; Festival Sanitization</h4>
-            <p className="text-xs text-neutral-600 leading-relaxed">
-              Turnkey mobile waste stations, dedicated roving ground teams, and zero-litter post-event clearouts for concerts and expos.
-            </p>
-            <div className="text-[11px] text-neutral-500 font-medium pt-1">
+            <div className="text-[11px] text-neutral-500 font-medium pt-2 border-t border-border-hairline">
               24/7 on-site dispatch
             </div>
           </div>
 
-          <div className="p-5 rounded-2xl border border-border-subtle bg-white space-y-2.5 shadow-xs">
-            <div className="w-8 h-8 rounded-lg bg-emerald-50 text-[#80B86B] flex items-center justify-center">
-              <Truck size={16} />
+          <div className="w-[82vw] sm:w-[50vw] md:w-[44vw] lg:w-auto shrink-0 snap-center p-5 rounded-2xl border border-border-subtle bg-white space-y-2.5 shadow-xs flex flex-col justify-between">
+            <div>
+              <div className="w-8 h-8 rounded-lg bg-emerald-50 text-[#80B86B] flex items-center justify-center mb-2">
+                <Truck size={16} />
+              </div>
+              <h4 className="font-heading font-medium text-base text-obsidian-pure">Emergency Spill &amp; Clearance</h4>
+              <p className="text-xs text-neutral-600 leading-relaxed">
+                Rapid-response containment team deployed in under 60 minutes for warehouse floods, industrial debris, or street obstructions.
+              </p>
             </div>
-            <h4 className="font-heading font-medium text-base text-obsidian-pure">Emergency Spill &amp; Clearance</h4>
-            <p className="text-xs text-neutral-600 leading-relaxed">
-              Rapid-response containment team deployed in under 60 minutes for warehouse floods, industrial debris, or street obstructions.
-            </p>
-            <div className="text-[11px] text-neutral-500 font-medium pt-1">
+            <div className="text-[11px] text-neutral-500 font-medium pt-2 border-t border-border-hairline">
               &lt;60 min rapid response
             </div>
           </div>
 
+        </div>
+
+        {/* Mobile Swipe Pagination Dots Indicator */}
+        <div className="flex lg:hidden items-center justify-center space-x-1.5 pt-3">
+          {[0, 1, 2, 3].map((i) => (
+            <button
+              key={i}
+              onClick={() => scrollSpecializedToIndex(i)}
+              aria-label={`Go to specialized service ${i + 1}`}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                activeSpecializedIdx === i ? 'w-6 bg-[#80B86B]' : 'w-1.5 bg-neutral-300'
+              }`}
+            />
+          ))}
         </div>
 
       </section>
