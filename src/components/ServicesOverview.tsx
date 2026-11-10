@@ -203,57 +203,94 @@ export const ServicesOverview: React.FC<ServicesOverviewProps> = ({ onNavigate }
 
         {/* ========================================================================= */}
         {/* 1. DESKTOP VIEW: Full 3-Column Side-By-Side Grid (Screens >= 1024px)       */}
+        {/* Distinct Brand Colors: One Black, One White, One Green                     */}
         {/* ========================================================================= */}
         <div className="hidden lg:grid lg:grid-cols-3 gap-5 items-stretch">
           {cards.map((card) => {
             const Icon = card.icon;
+            
+            let cardBgClasses = 'bg-white text-obsidian-pure border border-border-subtle shadow-subtle hover:border-neutral-300';
+            if (card.theme === 'dark') {
+              cardBgClasses = 'bg-obsidian-pure text-white border border-black/10 shadow-card-dark';
+            } else if (card.theme === 'green') {
+              cardBgClasses = 'bg-gradient-to-br from-[#1E451B] via-[#285923] to-[#34742E] text-white border border-white/15 shadow-card-dark';
+            }
+
             return (
               <div
                 key={card.id}
-                className="group rounded-2xl p-5 sm:p-6 bg-white border border-border-subtle hover:border-obsidian-pure hover:shadow-subtle transition-all duration-200 flex flex-col justify-between"
+                className={`group rounded-2xl p-5 sm:p-6 transition-all duration-200 hover:-translate-y-0.5 flex flex-col justify-between ${cardBgClasses}`}
               >
                 <div>
                   {/* Top: Icon + Stat Badge in one clean row */}
                   <div className="flex items-center justify-between mb-4">
-                    <div className="w-9 h-9 rounded-xl bg-neutral-100 border border-neutral-200/60 flex items-center justify-center text-obsidian-pure group-hover:bg-obsidian-pure group-hover:text-white transition-colors duration-200">
-                      <Icon size={16} />
+                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors duration-200 ${
+                      card.theme === 'light'
+                        ? 'bg-neutral-100 border border-neutral-200/60 text-obsidian-pure group-hover:bg-neutral-200'
+                        : 'bg-white/15 border border-white/15 text-white'
+                    }`}>
+                      <Icon size={16} className={card.theme === 'green' ? 'text-white' : (card.theme === 'dark' ? 'text-[#80B86B]' : 'text-obsidian-pure')} />
                     </div>
-                    <span className="text-[11px] font-semibold text-neutral-600 bg-neutral-100 px-2.5 py-0.5 rounded-full">
+                    <span className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full ${
+                      card.theme === 'light'
+                        ? 'text-neutral-600 bg-neutral-100'
+                        : 'text-white bg-white/15 border border-white/10'
+                    }`}>
                       {card.stat}
                     </span>
                   </div>
 
                   {/* Title */}
-                  <h3 className="font-heading font-medium text-lg tracking-tight text-obsidian-pure mb-2">
+                  <h3 className={`font-heading font-medium text-lg tracking-tight mb-2 ${
+                    card.theme === 'light' ? 'text-obsidian-pure' : 'text-white'
+                  }`}>
                     {card.title}
                   </h3>
 
                   {/* Subtitle */}
-                  <p className="font-body text-xs text-neutral-600 leading-relaxed mb-4">
+                  <p className={`font-body text-xs leading-relaxed mb-4 ${
+                    card.theme === 'light'
+                      ? 'text-neutral-600'
+                      : (card.theme === 'green' ? 'text-emerald-50/90' : 'text-neutral-300')
+                  }`}>
                     {card.subtitle}
                   </p>
 
                   {/* Bullets */}
-                  <ul className="space-y-1.5 font-body text-xs text-neutral-600 mb-5">
+                  <ul className="space-y-1.5 font-body text-xs mb-5">
                     {card.bullets.map((bullet, bIdx) => (
                       <li key={bIdx} className="flex items-start space-x-2">
-                        <span className="text-[#80B86B] text-[10px] mt-0.5">❖</span>
-                        <span>{bullet}</span>
+                        <span className={`${card.theme === 'green' ? 'text-white' : 'text-[#80B86B]'} text-[10px] mt-0.5`}>❖</span>
+                        <span className={
+                          card.theme === 'light'
+                            ? 'text-neutral-700'
+                            : (card.theme === 'green' ? 'text-emerald-50/90' : 'text-neutral-200')
+                        }>
+                          {bullet}
+                        </span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
                 {/* Bottom CTA */}
-                <div className="pt-3.5 border-t border-border-hairline flex items-center justify-between">
+                <div className={`pt-3.5 border-t flex items-center justify-between ${
+                  card.theme === 'light' ? 'border-border-hairline' : 'border-white/15'
+                }`}>
                   <button
                     onClick={() => onNavigate(card.targetPage)}
-                    className="group/btn inline-flex items-center space-x-1.5 text-xs font-medium text-obsidian-pure hover:text-[#80B86B] transition-colors"
+                    className={`group/btn inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all shadow-xs ${
+                      card.theme === 'light'
+                        ? 'bg-obsidian-pure text-white hover:bg-neutral-800'
+                        : 'bg-white text-obsidian-pure hover:bg-neutral-100'
+                    }`}
                   >
                     <span>{card.ctaText}</span>
-                    <ArrowRight size={13} className="group-hover/btn:translate-x-1 transition-transform" />
+                    <ArrowRight size={12} className="group-hover/btn:translate-x-0.5 transition-transform" />
                   </button>
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-dot"></span>
+                  <span className={`w-1.5 h-1.5 rounded-full ${
+                    card.theme === 'green' ? 'bg-white' : 'bg-emerald-dot'
+                  }`}></span>
                 </div>
               </div>
             );
