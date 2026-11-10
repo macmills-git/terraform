@@ -124,7 +124,7 @@ export const ImpactData: React.FC<ImpactDataProps> = () => {
           {metrics.map((item, idx) => (
             <div
               key={idx}
-              className="w-[82vw] sm:w-[50vw] md:w-[44vw] lg:w-auto shrink-0 snap-center group p-5 sm:p-6 rounded-2xl bg-white border border-border-subtle hover:border-obsidian-pure hover:shadow-subtle transition-all duration-200 flex flex-col justify-between"
+              className="w-[82vw] sm:w-[50vw] md:w-[44vw] lg:w-full shrink-0 lg:shrink snap-center lg:snap-align-none group p-5 sm:p-6 rounded-2xl bg-white border border-border-subtle hover:border-obsidian-pure hover:shadow-subtle transition-all duration-200 flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-center justify-between mb-4">

@@ -162,7 +162,7 @@ export const MissionVision: React.FC<MissionVisionProps> = ({ onNavigate }) => {
             return (
               <div
                 key={card.id}
-                className="w-[82vw] sm:w-[52vw] md:w-[44vw] lg:w-auto shrink-0 snap-center bg-white rounded-2xl p-5 sm:p-6 text-obsidian-pure shadow-xl border border-black/5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1"
+                className="w-[82vw] sm:w-[52vw] md:w-[44vw] lg:w-full shrink-0 lg:shrink snap-center lg:snap-align-none bg-white rounded-2xl p-5 sm:p-6 text-obsidian-pure shadow-xl border border-black/5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1"
               >
                 <div>
                   {/* Top-Left: Small Tinted Rounded Icon Badge */}
