@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { ArrowRight, Recycle, Building2, Home, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import { PageType } from '../types';
+import plasticRecyclingImg from '../assets/plastic-recycling-awareness.jpg';
 
 interface ServicesOverviewProps {
   onNavigate: (page: PageType, sectionId?: string) => void;
@@ -23,6 +24,7 @@ export const ServicesOverview: React.FC<ServicesOverviewProps> = ({ onNavigate }
       icon: Building2,
       stat: '3,800+ businesses',
       theme: 'dark' as const,
+      image: plasticRecyclingImg,
       subtitle: 'Guaranteed on-time waste removal tailored to your operational hours for factories, offices, hotels, and hospitals.',
       bullets: [
         '120-min emergency dispatch & rapid roll-off skips',
@@ -222,23 +224,42 @@ export const ServicesOverview: React.FC<ServicesOverviewProps> = ({ onNavigate }
                 className={`group rounded-2xl p-5 sm:p-6 transition-all duration-200 hover:-translate-y-0.5 flex flex-col justify-between ${cardBgClasses}`}
               >
                 <div>
-                  {/* Top: Icon + Stat Badge in one clean row */}
-                  <div className="flex items-center justify-between mb-4">
-                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors duration-200 ${
-                      card.theme === 'light'
-                        ? 'bg-neutral-100 border border-neutral-200/60 text-obsidian-pure group-hover:bg-neutral-200'
-                        : 'bg-white/15 border border-white/15 text-white'
-                    }`}>
-                      <Icon size={16} className={card.theme === 'green' ? 'text-white' : (card.theme === 'dark' ? 'text-[#80B86B]' : 'text-obsidian-pure')} />
+                  {card.image ? (
+                    /* Image header for card with uploaded photo */
+                    <div className="w-full h-36 rounded-xl overflow-hidden mb-4 relative shadow-sm border border-white/10">
+                      <img
+                        src={card.image}
+                        alt="Plastic Recycling Awareness Design"
+                        className="w-full h-full object-cover object-[center_35%] group-hover:scale-105 transition-transform duration-500"
+                        loading="eager"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none" />
+                      <div className="absolute top-2.5 left-2.5 w-7 h-7 rounded-lg bg-obsidian-pure/80 backdrop-blur-md flex items-center justify-center text-[#80B86B] border border-white/15 shadow-xs">
+                        <Icon size={14} />
+                      </div>
+                      <span className="absolute top-2.5 right-2.5 px-2.5 py-0.5 rounded-full bg-obsidian-pure/80 backdrop-blur-md text-[10px] font-semibold text-white border border-white/15 shadow-xs">
+                        {card.stat}
+                      </span>
                     </div>
-                    <span className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full ${
-                      card.theme === 'light'
-                        ? 'text-neutral-600 bg-neutral-100'
-                        : 'text-white bg-white/15 border border-white/10'
-                    }`}>
-                      {card.stat}
-                    </span>
-                  </div>
+                  ) : (
+                    /* Top: Icon + Stat Badge in one clean row */
+                    <div className="flex items-center justify-between mb-4">
+                      <div className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors duration-200 ${
+                        card.theme === 'light'
+                          ? 'bg-neutral-100 border border-neutral-200/60 text-obsidian-pure group-hover:bg-neutral-200'
+                          : 'bg-white/15 border border-white/15 text-white'
+                      }`}>
+                        <Icon size={16} className={card.theme === 'green' ? 'text-white' : (card.theme === 'dark' ? 'text-[#80B86B]' : 'text-obsidian-pure')} />
+                      </div>
+                      <span className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full ${
+                        card.theme === 'light'
+                          ? 'text-neutral-600 bg-neutral-100'
+                          : 'text-white bg-white/15 border border-white/10'
+                      }`}>
+                        {card.stat}
+                      </span>
+                    </div>
+                  )}
 
                   {/* Title */}
                   <h3 className={`font-heading font-medium text-lg tracking-tight mb-2 ${
@@ -327,7 +348,7 @@ export const ServicesOverview: React.FC<ServicesOverviewProps> = ({ onNavigate }
 
           {/* Interactive Swipeable Stack Deck */}
           <div 
-            className="relative w-full max-w-sm mx-auto min-h-[340px] sm:min-h-[320px] pb-4 perspective-1000 touch-pan-y"
+            className="relative w-full max-w-sm mx-auto min-h-[420px] sm:min-h-[400px] pb-4 perspective-1000 touch-pan-y"
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
@@ -399,20 +420,39 @@ export const ServicesOverview: React.FC<ServicesOverviewProps> = ({ onNavigate }
                   className={`absolute inset-x-0 top-0 rounded-2xl p-5 flex flex-col justify-between cursor-grab active:cursor-grabbing select-none ${themeClasses}`}
                 >
                   <div>
-                    {/* Top row */}
-                    <div className="flex items-center justify-between mb-3">
-                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center shadow-xs ${
-                        card.theme === 'light' ? 'bg-neutral-100 text-obsidian-pure' : 'bg-white/15 text-white'
-                      }`}>
-                        <Icon size={16} className={card.theme === 'green' ? 'text-white' : 'text-[#80B86B]'} />
+                    {card.image ? (
+                      /* Top row with image header for card with image */
+                      <div className="w-full h-32 rounded-xl overflow-hidden mb-3 relative shadow-xs border border-white/15">
+                        <img
+                          src={card.image}
+                          alt="Plastic Recycling Awareness Design"
+                          className="w-full h-full object-cover object-[center_35%]"
+                          loading="eager"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none" />
+                        <div className="absolute top-2 left-2 w-6 h-6 rounded-md bg-obsidian-pure/80 backdrop-blur-md flex items-center justify-center text-[#80B86B] border border-white/15">
+                          <Icon size={13} />
+                        </div>
+                        <span className="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-obsidian-pure/80 backdrop-blur-md text-[9px] font-semibold text-white border border-white/15">
+                          {card.stat}
+                        </span>
                       </div>
+                    ) : (
+                      /* Top row for cards without image */
+                      <div className="flex items-center justify-between mb-3">
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center shadow-xs ${
+                          card.theme === 'light' ? 'bg-neutral-100 text-obsidian-pure' : 'bg-white/15 text-white'
+                        }`}>
+                          <Icon size={16} className={card.theme === 'green' ? 'text-white' : 'text-[#80B86B]'} />
+                        </div>
 
-                      <span className={`text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full ${
-                        card.theme === 'light' ? 'bg-neutral-100 text-neutral-600' : 'bg-white/10 text-neutral-300'
-                      }`}>
-                        {card.stat}
-                      </span>
-                    </div>
+                        <span className={`text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full ${
+                          card.theme === 'light' ? 'bg-neutral-100 text-neutral-600' : 'bg-white/10 text-neutral-300'
+                        }`}>
+                          {card.stat}
+                        </span>
+                      </div>
+                    )}
 
                     <h3 className="font-heading font-medium text-base sm:text-lg tracking-tight mb-1.5">
                       {card.title}
