@@ -109,6 +109,24 @@
   z-index: 2;
 }
 
+/* Hide scrollbar for horizontal swipe carousels */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Smooth Card Stack Perspective */
+.perspective-1000 {
+  perspective: 1000px;
+}
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+
 /* Reduced bottom gradient blend by 70% so the lower landscape shows clearly */
 .hero-fade-bottom {
   position: absolute;
@@ -125,3 +143,21 @@
   pointer-events: none;
   z-index: 2;
 }
+
+/* Hide scrollbar for horizontal swipe carousels */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Smooth Card Stack Perspective */
+.perspective-1000 {
+  perspective: 1000px;
+}
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+

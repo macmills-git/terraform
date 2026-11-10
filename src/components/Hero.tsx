@@ -13,12 +13,12 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
   return (
     <>
       {/* 
-        Hero Section: Height reduced by 20px (min-h-[calc(100vh+10px)]).
-        Uses a large percentage of the screen for the vivid Gemini landscape image.
+        Hero Section: Centered directly in the middle of the screen
+        With the landscape photograph blending gracefully in the lower half
       */}
       <section 
         id="hero" 
-        className="hero-section bg-white relative overflow-hidden flex flex-col justify-between min-h-[calc(100vh+10px)] min-h-[calc(100svh+10px)]"
+        className="hero-section bg-white relative overflow-hidden flex items-center justify-center min-h-[calc(100vh-3.5rem)] sm:min-h-[calc(100vh-4rem)] min-h-[calc(100svh-3.5rem)] sm:min-h-[calc(100svh-4rem)]"
       >
         {/* Subtle 4-point sparkle crosshair markers in brand green #80B86B */}
         <div className="absolute top-12 sm:top-16 left-[12%] hidden lg:block pointer-events-none z-20">
@@ -34,7 +34,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
           <Sparkle size={14} className="text-[#80B86B] opacity-75" />
         </div>
 
-        {/* Flower / Sprout doodles added from footer to harmonize aesthetic */}
+        {/* Flower / Sprout doodles */}
         <div className="absolute top-10 sm:top-14 right-[8%] hidden md:block pointer-events-none z-20">
           <FlowerDoodle size={28} color="#80B86B" className="rotate-12 opacity-80" />
         </div>
@@ -43,38 +43,38 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
         </div>
 
         {/* 
-          Hero Content: Centered in the middle of the screen relative to the hero height and image
+          Hero Content: Perfectly centered in the middle of the screen
         */}
-        <div className="flex-1 flex flex-col justify-center items-center relative z-20 max-w-3xl mx-auto px-4 sm:px-6 text-center pt-8 sm:pt-12 md:pt-14 pb-2">
+        <div className="relative z-20 max-w-3xl mx-auto px-4 sm:px-6 text-center py-12 sm:py-16 flex flex-col items-center justify-center my-auto">
           
           {/* Status Badge with delicate sprout doodle */}
           <div className="relative inline-flex items-center">
-            <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-white border border-border-subtle shadow-xs mb-3 transition-all hover:border-neutral-400">
+            <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-white/90 backdrop-blur-sm border border-border-subtle shadow-xs mb-3.5 transition-all hover:border-neutral-400">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-dot animate-pulse"></span>
               <span className="text-[11px] sm:text-xs font-medium tracking-tight text-neutral-800">
                 Punctual, Stress-Free Waste Collection
               </span>
             </div>
             
-            {/* Delicate sprout doodle perched beside the status badge */}
+            {/* Sprout doodle perched beside badge */}
             <div className="absolute -top-3.5 -right-5 pointer-events-none hidden sm:block">
               <FlowerDoodle size={18} color="#80B86B" className="rotate-12" />
             </div>
           </div>
 
-          {/* Main Display Headline (Easy Grotesk Standard 400) - Enhanced breathable line spacing */}
-          <h1 className="font-heading font-normal text-3xl sm:text-4xl md:text-[50px] leading-[1.22] sm:leading-[1.2] tracking-[-0.03em] text-obsidian-pure mb-3">
+          {/* Main Display Headline (Easy Grotesk Standard 400) */}
+          <h1 className="font-heading font-normal text-3xl sm:text-4xl md:text-[52px] leading-[1.2] tracking-[-0.03em] text-obsidian-pure mb-3.5">
             Waste Collection On Time. <br className="hidden sm:inline" />
             At Your Convenience.
           </h1>
 
           {/* Subtitle (Continental) */}
-          <p className="font-body text-xs sm:text-sm md:text-[15px] text-neutral-600 max-w-2xl mx-auto leading-relaxed font-normal mb-5">
+          <p className="font-body text-xs sm:text-sm md:text-[15px] text-neutral-600 max-w-2xl mx-auto leading-relaxed font-normal mb-6">
             Dependable, hassle-free waste pickups for industries, corporate offices, hospitals, hotels, and homes across Greater Accra. Never worry about overflowing bins or missed collections again—with responsible recycling and bio-processing built right in.
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <button
               onClick={() => onNavigate('request')}
               className="group inline-flex items-center justify-center space-x-2 px-6 py-2.5 rounded-full bg-obsidian-pure text-white text-xs sm:text-[13px] font-medium transition-all duration-200 hover:bg-neutral-900 shadow-sm"
@@ -85,7 +85,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
 
             <button
               onClick={() => onNavigate('solutions')}
-              className="inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-white text-neutral-800 text-xs sm:text-[13px] font-medium border border-border-subtle hover:border-neutral-400 hover:bg-neutral-50 transition-all duration-200 shadow-xs"
+              className="inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-white/90 backdrop-blur-sm text-neutral-800 text-xs sm:text-[13px] font-medium border border-border-subtle hover:border-neutral-400 hover:bg-white transition-all duration-200 shadow-xs"
             >
               Explore Services
             </button>
@@ -93,24 +93,23 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
         </div>
 
         {/* 
-          Full-width image wrapper: Occupies a big percentage of the hero (~56-62vh)
-          - Top fade maintained for seamless blend behind the buttons.
-          - Bottom fade reduced by 70% so the terrain, wheat fields, and sunrise show with vivid clarity.
+          Atmospheric Landscape Backdrop positioned in the lower portion of the hero
+          With smooth gradients so text remains perfectly legible and centered
         */}
-        <div className="hero-background-image-container relative w-full h-[54vh] sm:h-[58vh] md:h-[62vh] min-h-[380px] sm:min-h-[440px] md:min-h-[500px] -mt-8 sm:-mt-12 md:-mt-14 overflow-hidden z-1 flex flex-col justify-end">
-          {/* Top smooth white fade overlay maintained */}
-          <div className="hero-fade-top pointer-events-none"></div>
+        <div className="absolute inset-x-0 bottom-0 h-[48%] sm:h-[52%] md:h-[55%] pointer-events-none z-1 overflow-hidden">
+          {/* Top smooth white fade */}
+          <div className="absolute inset-x-0 top-0 h-32 sm:h-44 bg-gradient-to-b from-white via-white/85 to-transparent z-10"></div>
 
-          {/* Gemini Generated Landscape Image showing clearly across a big percentage of the hero */}
+          {/* Gemini Generated Landscape Image */}
           <img
             src={geminiHeroBg}
             alt="Golden sunrise landscape representing circular technology and agricultural restoration"
-            className="hero-background-image w-full h-full object-cover object-[center_32%] block"
+            className="w-full h-full object-cover object-[center_36%] opacity-90 block"
             loading="eager"
           />
 
-          {/* Bottom subtle gradient fade (reduced by 70% to show image clearly) */}
-          <div className="hero-fade-bottom pointer-events-none"></div>
+          {/* Bottom subtle gradient fade */}
+          <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white via-white/40 to-transparent z-10"></div>
         </div>
       </section>
 
